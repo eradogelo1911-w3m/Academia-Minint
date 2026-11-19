@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academia MININT — Preparação Oficial para Concursos Públicos</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-seal">M</div>
+      <div>
+        <span class="brand-title">Academia MININT</span>
+        <span class="brand-sub">Preparação & Simulados • República de Angola</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="/pages/admin.html" class="nav-btn">Portal Administração</a>
+    </nav>
+  </header>
+
+  <main class="auth-wrapper">
+    <section class="hero-panel">
+      <span class="badge badge-ochre" style="margin-bottom:1rem;">Concursos Públicos MININT</span>
+      <h1>Formação Completa para os Órgãos do Ministério do Interior</h1>
+      <p style="opacity:0.92; margin-bottom:1.25rem;">
+        Prepare-se com módulos estruturados por disciplina e órgão, simulados cronometrados com correção comentada e acompanhamento de desempenho.
+      </p>
+      <ul style="margin-left:1.2rem; display:grid; gap:0.55rem; font-size:0.93rem;">
+        <li><strong>Órgãos Cobertos:</strong> Polícia Nacional (PNA), Serviço de Migração e Estrangeiros (SME), Proteção Civil e Bombeiros (SPCB), Serviços Prisionais e Administração.</li>
+        <li><strong>Sala de Aula Completa:</strong> História de Angola, Administração Pública, Língua Portuguesa, Matemática, Direito & Cidadania e Geografia.</li>
+        <li><strong>Ação Solidária Integrada:</strong> Contribuição única de <strong>200 Kz</strong> via Referência <strong>10116</strong> / Número <strong>936110847</strong> para apoio social.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="tab-switch">
+        <button type="button" id="tabLogin" class="active">Fazer Login</button>
+        <button type="button" id="tabRegister">Criar Conta</button>
+      </div>
+
+      <div id="authAlert" class="alert alert-error hidden"></div>
+
+      <!-- Formulário de Login -->
+      <form id="formLogin">
+        <div class="form-group">
+          <label for="loginUsername">Nome de Utilizador</label>
+          <input type="text" id="loginUsername" class="form-control" placeholder="Ex.: joao.silva" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Senha</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Entrar na Plataforma</button>
+      </form>
+
+      <!-- Formulário de Criar Conta -->
+      <form id="formRegister" class="hidden">
+        <div class="form-group">
+          <label for="regFullName">Nome Completo</label>
+          <input type="text" id="regFullName" class="form-control" placeholder="Ex.: João Manuel da Silva" required />
+        </div>
+        <div class="form-group">
+          <label for="regUsername">Nome de Utilizador</label>
+          <input type="text" id="regUsername" class="form-control" placeholder="Ex.: joao.silva" required />
+        </div>
+        <div class="form-group">
+          <label for="regEmail">E-mail (Opcional)</label>
+          <input type="email" id="regEmail" class="form-control" placeholder="candidato@exemplo.ao" />
+        </div>
+        <div class="grid-2" style="gap:0.75rem;">
+          <div class="form-group">
+            <label for="regOrgao">Órgão Pretendido</label>
+            <select id="regOrgao" class="form-control">
+              <option value="Polícia Nacional (PNA)">Polícia Nacional (PNA)</option>
+              <option value="Serviço de Migração e Estrangeiros (SME)">Migração e Estrangeiros (SME)</option>
+              <option value="Proteção Civil e Bombeiros (SPCB)">Bombeiros (SPCB)</option>
+              <option value="Serviços Prisionais (SP)">Serviços Prisionais (SP)</option>
+              <option value="Administração & Finanças MININT">Administração & Finanças</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="regNivel">Nível Académico</label>
+            <select id="regNivel" class="form-control">
+              <option value="Básico">Ensino Básico</option>
+              <option value="Médio" selected>Ensino Médio</option>
+              <option value="Superior">Ensino Superior</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Criar Senha (mín. 6 caracteres)</label>
+          <input type="password" id="regPassword" class="form-control" minlength="6" required />
+        </div>
+        <button type="submit" class="btn btn-ochre btn-block">Criar Conta de Candidato</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Academia MININT • Plataforma Preparatória e Apoio Social • Conformidade Lei n.º 22/11 (Proteção de Dados Pessoais)
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

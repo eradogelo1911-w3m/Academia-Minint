@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Administração — Academia MININT</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-seal">A</div>
+      <div>
+        <span class="brand-title">Portal de Administração — Academia MININT</span>
+        <span class="brand-sub">Monitorização Financeira, Efetivos e Progresso Académico</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="/index.html" class="nav-btn">Portal do Candidato</a>
+      <button type="button" id="btnAdminLogout" class="nav-btn danger hidden">Terminar Sessão</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Autenticação Isolada do Administrador -->
+    <section id="adminLoginSection" class="card" style="max-width:440px; margin:3rem auto;">
+      <span class="badge badge-ochre" style="margin-bottom:0.65rem;">Acesso Restrito</span>
+      <h2 style="margin-bottom:0.5rem;">Autenticação da Administração</h2>
+      <p style="color:var(--ink-secondary); font-size:0.9rem; margin-bottom:1.25rem;">
+        Área reservada à gestão e auditoria da plataforma.
+      </p>
+      <div id="adminLoginAlert" class="alert alert-error hidden"></div>
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label for="admUser">Utilizador Administrador</label>
+          <input type="text" id="admUser" class="form-control" placeholder="admin.minint" required />
+        </div>
+        <div class="form-group">
+          <label for="admPass">Senha de Administração</label>
+          <input type="password" id="admPass" class="form-control" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Entrar no Painel Admin</button>
+      </form>
+    </section>
+
+    <!-- Painel de Monitorização -->
+    <section id="adminPanelSection" class="hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+        <div>
+          <h2>Monitorização Geral da Plataforma</h2>
+          <p style="color:var(--ink-secondary);">Acompanhamento em tempo real das contribuições (200 Kz), candidatos inscritos e avanço nos estudos.</p>
+        </div>
+        <button type="button" id="btnExportCsv" class="btn btn-ochre">Exportar Relatório CSV</button>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Candidatos Inscritos</div>
+          <div class="kpi-value" id="kpiTotalUsers">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Contribuições Confirmadas</div>
+          <div class="kpi-value" id="kpiActiveDonors">0 / 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Solidário Arrecadado</div>
+          <div class="kpi-value" id="kpiTotalKz">0 Kz</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Avanço Médio na Sala de Aula</div>
+          <div class="kpi-value" id="kpiAvgProgress">0%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Simulados Realizados</div>
+          <div class="kpi-value" id="kpiQuizzes">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Catálogo Académico</div>
+          <div class="kpi-value" id="kpiCatalog" style="font-size:1.25rem;">-</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:1.75rem;">
+        <h3 style="margin-bottom:0.85rem;">Auditoria de Contribuições Solidárias (Ref. 10116 / Tel. 936110847)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID Transação</th>
+                <th>Candidato</th>
+                <th>Referência / Número</th>
+                <th>Valor</th>
+                <th>Comprovativo</th>
+                <th>Estado</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="adminDonationsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:0.85rem;">Avanço Individual dos Candidatos</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Candidato</th>
+                <th>Órgão / Nível</th>
+                <th>Solidariedade</th>
+                <th>Módulos Concluídos</th>
+                <th>Simulados</th>
+                <th>Registo</th>
+              </tr>
+            </thead>
+            <tbody id="adminCandidatesBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

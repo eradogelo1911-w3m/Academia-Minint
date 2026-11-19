@@ -1,0 +1,15 @@
+{
+  "name": "academia-minint",
+  "version": "2.0.0",
+  "description": "Plataforma Oficial de Preparação para Concursos Públicos do MININT (Angola)",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5"
+  }
+}

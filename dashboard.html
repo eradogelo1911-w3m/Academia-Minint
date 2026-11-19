@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Área do Candidato — Academia MININT</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-seal">M</div>
+      <div>
+        <span class="brand-title">Academia MININT</span>
+        <span class="brand-sub" id="userHeaderInfo">Carregando perfil...</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <button type="button" class="nav-btn active" data-view="viewDoacao">Apoio Solidário (200 Kz)</button>
+      <button type="button" class="nav-btn" data-view="viewSala">Sala de Aula</button>
+      <button type="button" class="nav-btn" data-view="viewSimulado">Jogo de Perguntas</button>
+      <button type="button" class="nav-btn danger" id="btnLogout">Sair</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="globalGateAlert" class="alert alert-error hidden"></div>
+
+    <!-- SECÇÃO 1: DOAÇÃO SOLIDÁRIA OBRIGATÓRIA (200 Kz MÍNIMO E MÁXIMO) -->
+    <section id="viewDoacao">
+      <div id="donationStatusBanner" class="alert alert-info"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="badge badge-ochre" style="margin-bottom:0.65rem;">Dados Oficiais de Pagamento</span>
+          <h2 style="margin-bottom:0.75rem;">Contribuição Solidária Única</h2>
+          <p style="color:var(--ink-secondary); margin-bottom:1rem;">
+            O valor contribuído reverte para o apoio social aos mais necessitados e liberta imediatamente todas as disciplinas da Sala de Aula e os Simulados Cronometrados.
+          </p>
+          <div style="background:var(--bg-paper); padding:1.1rem; border-radius:10px; border:1px solid var(--border-line); display:grid; gap:0.55rem;">
+            <div><strong>Entidade / Referência:</strong> <span class="mono" style="font-size:1.1rem;">10116</span></div>
+            <div><strong>Número Associado:</strong> <span class="mono" style="font-size:1.1rem;">936110847</span></div>
+            <div><strong>Valor Mínimo e Máximo:</strong> <span class="mono" style="font-size:1.1rem; color:var(--accent-forest);">200 Kz</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 style="margin-bottom:0.75rem;">Validar Talão de Contribuição</h2>
+          <div id="donationFormAlert" class="alert hidden"></div>
+          <form id="donationForm">
+            <div class="form-group">
+              <label for="donationAmount">Valor da Contribuição (Kz — Mínimo e Máximo: 200 Kz)</label>
+              <input type="number" id="donationAmount" class="form-control mono" value="200" min="200" max="200" step="1" readonly required />
+            </div>
+            <div class="form-group">
+              <label for="donationReceipt">Código do Comprovativo / Operação Multicaixa</label>
+              <input type="text" id="donationReceipt" class="form-control mono" placeholder="Ex.: MCX-849201" required />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Confirmar Contribuição de 200 Kz</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.5rem;">
+        <h3 style="margin-bottom:0.85rem;">Registo de Contribuições da Conta</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID Transação</th>
+                <th>Referência / Número</th>
+                <th>Valor</th>
+                <th>Comprovativo</th>
+                <th>Estado</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody id="donationHistoryBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECÇÃO 2: SALA DE AULA -->
+    <section id="viewSala" class="hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+        <div>
+          <h2>Sala de Aula — Conteúdos Programáticos</h2>
+          <p style="color:var(--ink-secondary);">Estude todas as matérias exigidas nos concursos do MININT.</p>
+        </div>
+        <span class="badge badge-forest" id="salaProgressText">0 módulos concluídos</span>
+      </div>
+
+      <div class="filter-bar">
+        <select id="filterOrgao" class="form-control" onchange="SalaModule.render()">
+          <option value="Todos">Todos os Órgãos MININT</option>
+          <option value="Polícia Nacional (PNA)">Polícia Nacional (PNA)</option>
+          <option value="Serviço de Migração e Estrangeiros (SME)">Serviço de Migração e Estrangeiros (SME)</option>
+          <option value="Proteção Civil e Bombeiros (SPCB)">Proteção Civil e Bombeiros (SPCB)</option>
+          <option value="Serviços Prisionais (SP)">Serviços Prisionais (SP)</option>
+          <option value="Administração & Finanças MININT">Administração & Finanças</option>
+        </select>
+
+        <select id="filterDisciplina" class="form-control" onchange="SalaModule.render()">
+          <option value="Todas">Todas as Disciplinas</option>
+          <option value="História de Angola">História de Angola</option>
+          <option value="Administração Pública">Administração Pública</option>
+          <option value="Língua Portuguesa">Língua Portuguesa</option>
+          <option value="Matemática">Matemática</option>
+          <option value="Direito & Cidadania">Direito & Cidadania</option>
+          <option value="Conhecimentos Específicos MININT">Conhecimentos Específicos MININT</option>
+          <option value="Geografia & Atualidade">Geografia & Atualidade</option>
+        </select>
+
+        <input type="search" id="filterSearch" class="form-control" placeholder="Pesquisar tema ou palavra-chave..." oninput="SalaModule.render()" />
+      </div>
+
+      <div id="lessonsGrid" class="grid-3"></div>
+
+      <div id="lessonReader" class="card lesson-reader hidden">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
+          <span class="badge badge-ochre" id="readerMeta"></span>
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('lessonReader').classList.add('hidden')">Fechar Leitura</button>
+        </div>
+        <h2 id="readerTitle" style="margin-bottom:1rem;"></h2>
+        <div id="readerBody"></div>
+        <div class="key-points">
+          <strong>Pontos-Chave para o Exame:</strong>
+          <ul id="readerPoints" style="margin-top:0.5rem;"></ul>
+        </div>
+        <button type="button" id="btnMarkComplete" class="btn btn-primary" onclick="SalaModule.completeActiveLesson()">Marcar Módulo como Concluído</button>
+      </div>
+    </section>
+
+    <!-- SECÇÃO 3: JOGO DE PERGUNTAS COM CRONÓMETRO -->
+    <section id="viewSimulado" class="hidden">
+      <div id="quizSetup" class="card" style="max-width:640px; margin:0 auto;">
+        <span class="badge badge-ochre" style="margin-bottom:0.65rem;">Simulador Oficial</span>
+        <h2 style="margin-bottom:0.5rem;">Configurar Jogo de Perguntas</h2>
+        <p style="color:var(--ink-secondary); margin-bottom:1.25rem;">
+          Escolha a disciplina foco, a quantidade de questões e o tempo limite por pergunta.
+        </p>
+
+        <div class="form-group">
+          <label for="quizDisciplina">Disciplina do Simulado</label>
+          <select id="quizDisciplina" class="form-control">
+            <option value="Todas">Todas as Disciplinas (Prova Geral)</option>
+            <option value="História de Angola">História de Angola</option>
+            <option value="Administração Pública">Administração Pública</option>
+            <option value="Língua Portuguesa">Língua Portuguesa</option>
+            <option value="Matemática">Matemática</option>
+            <option value="Direito & Cidadania">Direito & Cidadania</option>
+            <option value="Conhecimentos Específicos MININT">Conhecimentos Específicos MININT</option>
+            <option value="Geografia & Atualidade">Geografia & Atualidade</option>
+          </select>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="quizCount">Quantidade de Perguntas</label>
+            <select id="quizCount" class="form-control">
+              <option value="5">5 Perguntas (Rápido)</option>
+              <option value="10" selected>10 Perguntas (Padrão)</option>
+              <option value="15">15 Perguntas (Intensivo)</option>
+              <option value="25">25 Perguntas (Simulado Completo)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="quizTime">Tempo por Pergunta</label>
+            <select id="quizTime" class="form-control">
+              <option value="15">15 segundos</option>
+              <option value="30" selected>30 segundos</option>
+              <option value="45">45 segundos</option>
+              <option value="60">60 segundos</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" onclick="SimuladoModule.start()">Iniciar Simulado Cronometrado</button>
+      </div>
+
+      <div id="quizArena" class="card hidden" style="max-width:760px; margin:0 auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+          <span class="badge badge-forest" id="quizDisciplineBadge"></span>
+          <span class="mono" id="quizProgressLabel" style="font-weight:700;"></span>
+          <span class="mono" id="quizScoreLabel" style="font-weight:700; color:var(--accent-ochre);"></span>
+          <span class="mono" id="quizTimerText" style="font-weight:700; font-size:1.1rem;">30s</span>
+        </div>
+
+        <div class="timer-bar-wrap">
+          <div id="quizTimerBar" class="timer-bar-fill" style="width:100%;"></div>
+        </div>
+
+        <h3 id="quizQuestionText" style="font-size:1.2rem; margin-bottom:1.15rem;"></h3>
+        <div id="quizOptions"></div>
+        <div id="quizExplanation" class="alert hidden" style="margin-top:1rem;"></div>
+        <button type="button" id="btnNextQuestion" class="btn btn-primary btn-block hidden" style="margin-top:0.75rem;" onclick="SimuladoModule.next()">Próxima Questão</button>
+      </div>
+
+      <div id="quizResult" class="card hidden" style="max-width:600px; margin:0 auto; text-align:center;">
+        <span class="badge badge-ochre" style="margin-bottom:0.75rem;">Resultado Final</span>
+        <div id="resScorePct" class="serif" style="font-size:3.2rem; font-weight:700; color:var(--accent-forest);">0%</div>
+        <p id="resDetails" style="margin:0.75rem 0 1.5rem; color:var(--ink-secondary);"></p>
+        <button type="button" class="btn btn-primary" onclick="SimuladoModule.resetToSetup()">Realizar Novo Simulado</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/doacao.js"></script>
+  <script src="/js/sala.js"></script>
+  <script src="/js/simulado.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!API.getToken()) {
+        window.location.href = '/index.html';
+        return;
+      }
+
+      let currentUser = null;
+      const gateAlert = document.getElementById('globalGateAlert');
+
+      async function syncUser() {
+        try {
+          const res = await API.request('/api/auth/me');
+          currentUser = res.user;
+          document.getElementById('userHeaderInfo').textContent = `${currentUser.fullName} • ${currentUser.orgaoAlvo}`;
+        } catch (err) {
+          API.clearSession();
+          window.location.href = '/index.html';
+        }
+      }
+
+      function switchView(targetId) {
+        gateAlert.classList.add('hidden');
+        ['viewDoacao', 'viewSala', 'viewSimulado'].forEach(id => {
+          document.getElementById(id).classList.add('hidden');
+        });
+        document.querySelectorAll('.nav-btn[data-view]').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.view === targetId);
+        });
+        document.getElementById(targetId).classList.remove('hidden');
+      }
+
+      document.querySelectorAll('.nav-btn[data-view]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const target = btn.dataset.view;
+          if (target === 'viewSala') {
+            try {
+              await SalaModule.load();
+              switchView('viewSala');
+            } catch (err) {
+              gateAlert.textContent = err.message;
+              gateAlert.classList.remove('hidden');
+              switchView('viewDoacao');
+            }
+          } else if (target === 'viewSimulado') {
+            if (!currentUser.donationConfirmed) {
+              gateAlert.textContent = 'Para jogar o Simulado, efetue primeiro a contribuição solidária única de 200 Kz (Referência 10116 / Número 936110847).';
+              gateAlert.classList.remove('hidden');
+              switchView('viewDoacao');
+            } else {
+              switchView('viewSimulado');
+            }
+          } else {
+            await DoacaoModule.load();
+            switchView('viewDoacao');
+          }
+        });
+      });
+
+      document.getElementById('btnLogout').addEventListener('click', () => {
+        API.clearSession();
+        window.location.href = '/index.html';
+      });
+
+      await syncUser();
+      await DoacaoModule.load();
+      DoacaoModule.bindForm(syncUser);
+    });
+  </script>
+</body>
+</html>
